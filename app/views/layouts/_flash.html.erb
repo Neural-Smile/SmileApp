@@ -1,0 +1,7 @@
+<% flash.each do |type, msg|  %>
+  <% if type.to_sym == :success %>
+    <div class="w3-panel w3-pale-green w3-round"><p><%= msg  %></p></div>
+  <% else %>
+    <div class="w3-panel w3-pale-red w3-round"><p><%= msg  %></p></div>
+  <% end %>
+<% end %>

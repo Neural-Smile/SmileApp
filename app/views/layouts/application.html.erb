@@ -21,9 +21,12 @@
       </header>
       <div class="w3-row">
         <div class="w3-margin w3-padding-large">
+          <%= render 'layouts/flash'  %>
           <%= yield %>
         </div>
       </div>
     </div>
+
+    <%= debug(params) if Rails.env.development? %>
   </body>
 </html>

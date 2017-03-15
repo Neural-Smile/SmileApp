@@ -1,0 +1,32 @@
+<div class="w3-card-2 w3-padding-large">
+  <h1>Sign up</h1>
+  <p>Please fill out the form below</p>
+
+  <div class="w3-container">
+    <%= form_for(@user, html: {class: "w3-container"}) do |f|  %>
+      <div class="w3-row w3-section">
+        <%= f.label :name, class: "w3-label w3-text-black"  %>
+        <%= f.text_field :name, class: "w3-input w3-round"  %>
+      </div>
+
+      <div class="w3-row w3-section">
+        <%= f.label :email, class: "w3-label w3-text-black"  %>
+        <%= f.text_field :email, class: "w3-input w3-round" %>
+      </div>
+
+      <div class="w3-row w3-section">
+        <%= f.label :password, class: "w3-label w3-text-black"  %>
+        <%= f.password_field :password, class: "w3-input w3-round" %>
+      </div>
+
+      <div class="w3-row w3-section">
+        <%= f.label :password_confirmation, class: "w3-label w3-text-black" %>
+        <%= f.password_field :password_confirmation, class: "w3-input w3-round" %>
+      </div>
+
+      <div class="w3-row w3-section">
+        <%= f.submit "Create account"  %>
+      </div>
+    <% end %>
+  </div>
+</div>

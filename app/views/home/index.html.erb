@@ -3,15 +3,20 @@
   <p>It doesn't look like we have logged you in. Please authenticate yourself below:</p>
 
   <div class="w3-center">
-    <img src="http://i.imgur.com/D9x5NVG.jpg" class="w3-round w3-card-2" alt="Norway">
+    <video id="video-frame" width="640" height="480" autoplay></video>
+    <canvas id="capture-frame" width="640" height="480" style="display: none"></canvas>
+    <p id="hex-digest" style="display: none"></p>
     <div class="w3-container">
       <p>
-        <a href="#">Click here to authenticate using Smile&trade;</a>
+        <!-- <a id="capture&#45;button" style="text&#45;decoration:underline">Click here to authenticate using Smile&#38;trade;</a> -->
+        <div class="w3-row">
+          <input id="capture-button" type="button" value="Click here to authenticate using Smile&trade;">
+        </div>
         <br>
         (Don't worry! If we can't recognize you, we will help you get signed up)
       </p>
-      <p>
-        <a href="#" class="w3-small">Manual authentication</a>
+      <p class="w3-small">
+        <a href="#">Manual authentication</a> (or <%= link_to "sign up", 'signup' %>)
       </p>
     </div>
   </div>
