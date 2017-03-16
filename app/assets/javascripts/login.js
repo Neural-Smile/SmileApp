@@ -38,26 +38,26 @@ function load() {
     video.loop = true;
   }
 
-  var onCaptureFrame = function() {
+  var onClickVisionAuthentication = function() {
     fillCanvasWithImage(video, captureCanvas);
     var dataURL = captureCanvas.toDataURL('image/png');
 
-    $.post('/digest', {
-      image: {
-        data: dataURL,
-        name: new Date().getTime()
+    $.post('/login', {
+      session: {
+        user_image: dataURL
       }
     }, function(data, status) {
-      if(hexDigest.style["display"] == "none") {
-        hexDigest.style["display"] = "block";
+      if(data['success'] == false) {
+        if(hexDigest.style["display"] === "none") {
+          hexDigest.style["display"] = "block";
+        }
+        hexDigest.innerText = data['error'];
       }
-      hexDigest.innerText = "Image upload: " + status
-      console.log(status);
     });
   }
 
   initCanvasDummy();
-  captureButton.addEventListener('click', onCaptureFrame);
+  captureButton.addEventListener('click', onClickVisionAuthentication);
   navigator.getMedia({video: true}, showCameraStream, showDummyVideo);
 }
 

@@ -35,15 +35,15 @@ class UsersController < ApplicationController
   end
 
   def edit
-
+    raise NotImplementedError
   end
 
   def update
-
+    raise NotImplementedError
   end
 
   def destroy
-
+    raise NotImplementedError
   end
 
   private
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
   def check_login
     unless logged_in?
       flash[:danger] = "Please log in first"
-      redirect_to root_path
+      redirect_to login_path
     end
   end
 end

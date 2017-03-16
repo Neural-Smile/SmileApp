@@ -4,8 +4,11 @@ Rails.application.routes.draw do
 
   get 'signup' => 'users#new'
   post 'digest' => 'home#digest'
-  get 'login' => 'sessions#new'
+
+  get 'login' => 'sessions#login'
+  get 'mlogin' => 'sessions#manual_login'
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
+
   resources :users
 end
