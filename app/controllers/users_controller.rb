@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
+  before_action :check_login, except: [:new, :create]
+
   def index
-    @users = User.all
+    redirect_to current_user
   end
 
   def show
@@ -23,6 +25,7 @@ class UsersController < ApplicationController
 
     @user = User.new(user_params)
     if @user.save
+      log_in @user
       flash[:success] = "Sign up successful. Welcome to Smile"
       redirect_to @user
     else
@@ -47,5 +50,12 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :master_image)
+  end
+
+  def check_login
+    unless logged_in?
+      flash[:danger] = "Please log in first"
+      redirect_to root_path
+    end
   end
 end

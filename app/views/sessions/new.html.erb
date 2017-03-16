@@ -1,0 +1,23 @@
+<div class="w3-card-2 w3-padding-large">
+  <h1>Sign in</h1>
+
+  <div class="w3-container">
+    <%= form_for(:session, url: login_path, html: {class: "w3-container"}) do |f|  %>
+      <div class="w3-row w3-section">
+        <%= f.label :email, class: "w3-label w3-text-black"  %>
+        <%= f.text_field :email, class: "w3-input w3-round"  %>
+      </div>
+
+      <div class="w3-row w3-section">
+        <%= f.label :password, class: "w3-label w3-text-black"  %>
+        <%= f.password_field :password, class: "w3-input w3-round" %>
+      </div>
+
+      <div class="w3-row w3-section">
+        <%= f.submit "Sign in", class: "w3-btn" %>
+      </div>
+
+      <p>New user? <%= link_to "Sign up now!", signup_path %></p>
+    <% end %>
+  </div>
+</div>

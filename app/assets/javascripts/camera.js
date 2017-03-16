@@ -61,4 +61,4 @@ function load() {
   navigator.getMedia({video: true}, showCameraStream, showDummyVideo);
 }
 
-window.onload = load
+$(document).ready(load);
