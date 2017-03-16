@@ -12,6 +12,15 @@ class UsersController < ApplicationController
   end
 
   def create
+    image = User.image_from_params(user_params[:master_image])
+
+    if image.nil?
+      flash[:danger] = "Image was not received correctly"
+      render 'new'
+    end
+
+    png = User.decode_image(image)
+
     @user = User.new(user_params)
     if @user.save
       flash[:success] = "Sign up successful. Welcome to Smile"
@@ -37,6 +46,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :master_image)
   end
 end

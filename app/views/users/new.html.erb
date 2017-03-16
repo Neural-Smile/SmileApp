@@ -1,9 +1,25 @@
+<%= javascript_include_tag 'signup' %>
 <div class="w3-card-2 w3-padding-large">
   <h1>Sign up</h1>
   <p>Please fill out the form below</p>
 
   <div class="w3-container">
     <%= form_for(@user, html: {class: "w3-container"}) do |f|  %>
+      <div class="w3-row w3-section">
+
+        <video id="video-frame" width="640" height="480" autoplay></video>
+        <canvas id="capture-frame" width="640" height="480" style="display: none"></canvas>
+
+        <div class="w3-row">
+          <input id="capture-button" type="button" value="Capture image">
+        </div>
+      </div>
+
+      <div class="w3-row w3-section" style="display: none">
+        <%= f.label :master_image, class: "w3-label w3-text-black"  %>
+        <%= f.text_field :master_image, class: "w3-input w3-round"  %>
+      </div>
+
       <div class="w3-row w3-section">
         <%= f.label :name, class: "w3-label w3-text-black"  %>
         <%= f.text_field :name, class: "w3-input w3-round"  %>
@@ -25,7 +41,7 @@
       </div>
 
       <div class="w3-row w3-section">
-        <%= f.submit "Create account"  %>
+        <input id="form-submit-button" type="button" value="Create account">
       </div>
     <% end %>
   </div>

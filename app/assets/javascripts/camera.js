@@ -43,12 +43,16 @@ function load() {
     var dataURL = captureCanvas.toDataURL('image/png');
 
     $.post('/digest', {
-      string: dataURL
+      image: {
+        data: dataURL,
+        name: new Date().getTime()
+      }
     }, function(data, status) {
       if(hexDigest.style["display"] == "none") {
         hexDigest.style["display"] = "block";
       }
-      hexDigest.innerText = "Image digest: " + data
+      hexDigest.innerText = "Image upload: " + status
+      console.log(status);
     });
   }
 
