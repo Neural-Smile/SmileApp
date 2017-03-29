@@ -1,3 +1,6 @@
+require "uri"
+require "net/http"
+
 class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -7,13 +10,16 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 50 }
   validates :master_image, presence: true
+  validates :vision_identity, presence: true
   validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 8 }
 
   def self.authenticate_with_vision(b64image)
-    if Random.rand < 0.5
-      User.first
-    end
+    params = {'image' => b64image }
+    resp = Net::HTTP.post_form(URI.parse('http://localhost:3001/verify'), params)
+    identity = resp.body
+    user = User.find_by vision_identity: identity
+    return user
   end
 
   def self.decode_image(base64_str)

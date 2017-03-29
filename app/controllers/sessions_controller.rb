@@ -41,7 +41,7 @@ class SessionsController < ApplicationController
 
   def login_with_vision
     b64image = User.image_from_params(session_params[:user_image])
-    User.authenticate_with_vision(b64image)
+    return User.authenticate_with_vision(b64image)
   end
 
   def session_params

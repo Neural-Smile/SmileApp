@@ -8,6 +8,7 @@ navigator.getMedia = ( navigator.getUserMedia || // use the proper vendor prefix
 
 var imageData = "";
 var videoStreaming = true;
+var trainingImages = [];
 
 function load() {
   var videoFrame = document.getElementById('video-frame');
@@ -15,9 +16,13 @@ function load() {
   var captureButton = document.getElementById('capture-button');
   var submitButton = document.getElementById('form-submit-button');
 
-  var replaceVideoWithImage = function(img, canvas) {
+  var putFrameIntoCanvas = function(img, canvas) {
     var context = canvas.getContext('2d');
     context.drawImage(img, 0, 0, canvas.width, canvas.height);
+  }
+
+  var replaceVideoWithImage = function(img, canvas) {
+    putFrameIntoCanvas(img, canvas);
     videoFrame.style.display = "none";
     captureCanvas.style.display = "block";
   }
@@ -33,21 +38,15 @@ function load() {
   }
 
   var onClickCapture = function() {
-    if(videoStreaming) {
-      replaceVideoWithImage(videoFrame, captureCanvas);
-      imageData = captureCanvas.toDataURL('image/png');
-      captureButton.value = "Retake image"
-      videoStreaming = false;
-    } else {
-      videoFrame.style.display = "block";
-      captureCanvas.style.display = "none";
-      captureButton.value = "Capture image"
-      videoStreaming = true;
-    }
+    putFrameIntoCanvas(videoFrame, captureCanvas);
+    imageData = captureCanvas.toDataURL('image/png');
+    trainingImages.push(imageData);
+    captureButton.value = "Images taken: " + trainingImages.length + ". Keep going";
   }
 
   var onClickSubmit = function() {
-    $('#user_master_image')[0].value = imageData;
+    $('#user_master_image')[0].value = trainingImages[0];
+    $('#user_training_images')[0].value = trainingImages;
     $('form').submit();
   }
 

@@ -16,6 +16,11 @@
       </div>
 
       <div class="w3-row w3-section" style="display: none">
+        <%= f.label :training_images, class: "w3-label w3-text-black"  %>
+        <input class="w3-input w3-round" type="text" name="user[training_images]" id="user_training_images">
+      </div>
+
+      <div class="w3-row w3-section" style="display: none">
         <%= f.label :master_image, class: "w3-label w3-text-black"  %>
         <%= f.text_field :master_image, class: "w3-input w3-round"  %>
       </div>
@@ -38,6 +43,11 @@
       <div class="w3-row w3-section">
         <%= f.label :password_confirmation, class: "w3-label w3-text-black" %>
         <%= f.password_field :password_confirmation, class: "w3-input w3-round" %>
+      </div>
+
+      <div class="w3-row w3-section">
+        <%= f.label :vision_identity, class: "w3-label w3-text-black" %>
+        <%= f.text_field :vision_identity, class: "w3-input w3-round" %>
       </div>
 
       <div class="w3-row w3-section">

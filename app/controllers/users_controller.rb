@@ -14,16 +14,31 @@ class UsersController < ApplicationController
   end
 
   def create
-    image = User.image_from_params(user_params[:master_image])
+    u_params = user_params
 
-    if image.nil?
+    master_image = User.image_from_params(u_params[:master_image])
+
+    training_images = []
+    train_param = u_params.delete(:training_images).split(",")
+    train_param.each_with_index do |img, i|
+      if i % 2 != 0
+        training_images << img
+      end
+    end
+
+    if master_image.nil?
       flash[:danger] = "Image was not received correctly"
       render 'new'
     end
 
-    png = User.decode_image(image)
+    vision_params = {'images' => training_images, 'identity' => u_params[:vision_identity]}
+    resp = Net::HTTP.post_form(URI.parse('http://localhost:3001/train'), vision_params)
+    if resp.body != "success"
+      flash[:danger] = "Could not train model. Try again"
+      render 'new'
+    end
 
-    @user = User.new(user_params)
+    @user = User.new(u_params)
     if @user.save
       log_in @user
       flash[:success] = "Sign up successful. Welcome to Smile"
@@ -49,7 +64,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :master_image)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :master_image, :vision_identity, :training_images)
   end
 
   def check_login
