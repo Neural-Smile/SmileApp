@@ -16,8 +16,6 @@ class UsersController < ApplicationController
   def create
     u_params = user_params
 
-    master_image = User.image_from_params(u_params[:master_image])
-
     training_images = []
     train_param = u_params.delete(:training_images).split(",")
     train_param.each_with_index do |img, i|
@@ -26,16 +24,13 @@ class UsersController < ApplicationController
       end
     end
 
-    if master_image.nil?
-      flash[:danger] = "Image was not received correctly"
-      render 'new'
-    end
-
-    vision_params = {'images' => training_images, 'identity' => u_params[:vision_identity]}
-    resp = Net::HTTP.post_form(URI.parse('http://localhost:3001/train'), vision_params)
-    if resp.body != "success"
-      flash[:danger] = "Could not train model. Try again"
-      render 'new'
+    if training_images.size > 0
+      vision_params = {'images' => training_images, 'identity' => u_params[:vision_identity]}
+      resp = Net::HTTP.post_form(URI.parse('http://localhost:3001/train'), vision_params)
+      if resp.body != "success"
+        flash[:danger] = "Could not train model. Try again"
+        render 'new'
+      end
     end
 
     @user = User.new(u_params)

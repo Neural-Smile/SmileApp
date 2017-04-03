@@ -7,6 +7,7 @@ navigator.getMedia = ( navigator.getUserMedia || // use the proper vendor prefix
                        navigator.msGetUserMedia);
 
 var imageData = "";
+var masterImage = "";
 var videoStreaming = true;
 var trainingImages = [];
 
@@ -39,13 +40,17 @@ function load() {
 
   var onClickCapture = function() {
     putFrameIntoCanvas(videoFrame, captureCanvas);
-    imageData = captureCanvas.toDataURL('image/png');
-    trainingImages.push(imageData);
-    captureButton.value = "Images taken: " + trainingImages.length + ". Keep going";
+    if (masterImage != "") {
+      trainingImages.push(captureCanvas.toDataURL('image/png'));
+      captureButton.value = "Images taken: " + trainingImages.length + ". Keep going";
+    } else {
+      masterImage = captureCanvas.toDataURL('image/png');
+      captureButton.value = "Master image taken. Keep going to take training images";
+    }
   }
 
   var onClickSubmit = function() {
-    $('#user_master_image')[0].value = trainingImages[0];
+    $('#user_master_image')[0].value = masterImage;
     $('#user_training_images')[0].value = trainingImages;
     $('form').submit();
   }
